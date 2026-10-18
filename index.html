@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Find out in 5 minutes if your business is using AI safely, and get a plain-English fix list. Your answers never leave your browser.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>AI Readiness &amp; Risk Scorecard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: a single focused app column (max 880px) under a slim header with a six-step tracker; a self-audit worksheet, not a marketing page. */
+:root{
+  --paper:#F3F5F2; --surface:#FFFFFF; --ink:#14201D; --muted:#5A6763; --line:#D9DFDB; --soft:#E9EDEA;
+  --accent:#2C55C9; --accent-ink:#FFFFFF; --accent-soft:#E6ECFB;
+  --good:#1D8456; --warn:#B87C06; --crit:#C2412D;
+  --good-soft:#E3F2EA; --warn-soft:#FAF0D9; --crit-soft:#FBE7E3;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1413; --surface:#162020; --ink:#E6ECE9; --muted:#9BA8A4; --line:#2A3634; --soft:#1D2928;
+  --accent:#86A2FF; --accent-ink:#0E1413; --accent-soft:#1E2A47;
+  --good:#4BC089; --warn:#E5B23F; --crit:#F27B66;
+  --good-soft:#15302A; --warn-soft:#33290F; --crit-soft:#3A1D18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1413; --surface:#162020; --ink:#E6ECE9; --muted:#9BA8A4; --line:#2A3634; --soft:#1D2928;
+  --accent:#86A2FF; --accent-ink:#0E1413; --accent-soft:#1E2A47;
+  --good:#4BC089; --warn:#E5B23F; --crit:#F27B66;
+  --good-soft:#15302A; --warn-soft:#33290F; --crit-soft:#3A1D18; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:-0.015em;line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
+.top-in{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px}
+.mark{width:26px;height:26px;border-radius:7px;background:var(--ink);display:grid;place-items:center}
+.mark svg{display:block}
+.brand small{display:block;font-weight:400;color:var(--muted);font-size:12px;line-height:1.2}
+.steps{display:flex;gap:4px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.steps button{border:1px solid transparent;background:none;border-radius:999px;padding:4px 10px;font-size:12.5px;color:var(--muted);cursor:pointer;display:flex;gap:6px;align-items:center}
+.steps button .n{font-family:var(--f-mono);font-size:11px}
+.steps button[aria-current="step"]{background:var(--ink);color:var(--paper)}
+.steps button:disabled{opacity:.45;cursor:default}
+.steps button:not(:disabled):not([aria-current="step"]):hover{border-color:var(--line)}
+
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.narrow{max-width:640px}
+
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{color:var(--muted);font-size:17px;max-width:60ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:11px 18px;font-weight:600;font-size:15px;cursor:pointer;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.ghost{background:none;border-color:transparent;color:var(--muted);padding-inline:8px}
+.btn.ghost:hover{color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px;background:var(--soft);color:var(--muted)}
+.chip.crit{background:var(--crit-soft);color:var(--crit)}
+.chip.good{background:var(--good-soft);color:var(--good)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.accent{background:var(--accent-soft);color:var(--accent)}
+
+/* landing */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:start}
+.hero > *{min-width:0}
+.hero h1{font-size:clamp(34px,5.4vw,52px);margin:10px 0 14px}
+.benefits{list-style:none;padding:0;margin:22px 0 26px;display:grid;gap:12px}
+.benefits li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.benefits .ic{width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:600}
+.benefits b{display:block;font-weight:600}
+.benefits span{color:var(--muted);font-size:14.5px}
+.privacy{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--muted);margin-top:18px;max-width:52ch}
+.privacy svg{flex:none;margin-top:2px}
+.sample{position:relative}
+.sample-tag{position:absolute;top:-10px;right:16px}
+.resume{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+
+.domains-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.domains-strip div{border-top:2px solid var(--ink);padding-top:10px}
+.domains-strip .mono{font-size:12px;color:var(--muted)}
+.domains-strip b{display:block;font-size:14.5px}
+.domains-strip span{font-size:13.5px;color:var(--muted)}
+
+/* forms */
+.field{display:flex;flex-direction:column;gap:8px}
+.field label,.field .lbl{font-weight:600;font-size:14.5px}
+.field .opt{font-weight:400;color:var(--muted)}
+.input{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:11px 14px;width:100%}
+.choice-row{display:flex;flex-wrap:wrap;gap:8px}
+.pick{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;cursor:pointer;font-size:14.5px}
+.pick[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.form{display:grid;gap:22px}
+
+/* quiz */
+.track{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.track .seg{display:flex;flex-direction:column;gap:6px;min-width:0}
+.track .bar{height:6px;border-radius:3px;background:var(--soft);overflow:hidden}
+.track .bar i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .25s}
+.track .seg span{font-family:var(--f-mono);font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track .seg.on span{color:var(--ink);font-weight:600}
+.qhead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.qtitle{font-size:clamp(23px,3.4vw,30px)}
+.hint-btn{background:none;border:none;color:var(--accent);font-weight:600;padding:0;cursor:pointer;font-size:14px}
+.hint{background:var(--soft);border-radius:10px;padding:12px 14px;font-size:14.5px;color:var(--ink)}
+.options{display:grid;gap:10px}
+.option{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:center;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;width:100%}
+.option:hover{border-color:var(--muted)}
+.option .k{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.option[aria-checked="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:var(--accent-soft)}
+.option[aria-checked="true"] .k{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.option.na{border-style:dashed}
+.qnav{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.kbd{font-size:12.5px;color:var(--muted)}
+
+/* results */
+.res-top{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:center}
+.res-top > *{min-width:0}
+.gauge svg{width:100%;height:auto;display:block}
+.band-pill{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-family:var(--f-display);font-size:18px;padding:6px 14px;border-radius:999px}
+.band-good{background:var(--good-soft);color:var(--good)}
+.band-warn{background:var(--warn-soft);color:var(--warn)}
+.band-crit{background:var(--crit-soft);color:var(--crit)}
+.alert{border:1px solid var(--crit);background:var(--crit-soft);border-radius:12px;padding:14px 16px;display:grid;gap:8px}
+.alert h3{font-size:16px;color:var(--crit);font-family:var(--f-body);font-weight:600;letter-spacing:0}
+.alert ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14.5px}
+.dlist{display:grid;gap:14px}
+.drow{display:grid;grid-template-columns:minmax(0,190px) 1fr 52px;gap:14px;align-items:center}
+.drow .nm{font-weight:600;font-size:14.5px}
+.drow .nm small{display:block;font-weight:400;color:var(--muted);font-family:var(--f-mono);font-size:11.5px}
+.dbar{position:relative;height:12px;border-radius:6px;background:var(--soft)}
+.dbar i{position:absolute;inset:0 auto 0 0;border-radius:6px}
+.dbar .tick{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--line)}
+.drow .val{text-align:right;font-family:var(--f-mono);font-weight:600}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+/* plan */
+.acts{display:grid;gap:12px}
+.act{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 18px 20px;display:grid;gap:8px;position:relative;overflow:hidden}
+.act::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--line)}
+.act.p-crit::before{background:var(--crit)}
+.act.p-fix::before{background:var(--warn)}
+.act.p-imp::before{background:var(--accent)}
+.act-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.act h3{font-size:18px}
+.act .why{color:var(--muted);font-size:14.5px}
+.act ol{margin:4px 0 0;padding-left:20px;display:grid;gap:4px;font-size:14.5px}
+.act .meta{display:flex;gap:6px;flex-wrap:wrap}
+.act .qref{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.locked{position:relative}
+.locked .blur{filter:blur(5px);user-select:none;pointer-events:none;opacity:.7}
+.unlock{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:var(--ink);color:var(--paper);border-radius:14px;padding:24px}
+.unlock > *{min-width:0}
+.unlock h2{font-size:24px;color:var(--paper)}
+.unlock p{color:color-mix(in srgb,var(--paper) 78%,transparent);font-size:14.5px}
+.unlock ul{margin:10px 0 0;padding-left:18px;font-size:14.5px;color:color-mix(in srgb,var(--paper) 85%,transparent)}
+.code-box{display:grid;gap:8px;min-width:240px}
+.code-box input{background:var(--paper);color:var(--ink);border:none;border-radius:10px;padding:11px 14px;font-family:var(--f-mono);letter-spacing:.06em;text-transform:uppercase}
+.code-box .err{color:var(--crit);font-size:13px;background:var(--crit-soft);border-radius:8px;padding:6px 10px}
+.code-box small{font-size:12.5px;color:color-mix(in srgb,var(--paper) 70%,transparent)}
+.weeks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.week{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--surface);display:grid;gap:8px;align-content:start}
+.week .mono{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.week ul{margin:0;padding-left:16px;font-size:14px;display:grid;gap:4px}
+.week .empty{font-size:13.5px;color:var(--muted)}
+
+/* report */
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:40px clamp(18px,5vw,48px);display:grid;gap:28px}
+.doc-cover{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:20px}
+.doc-cover h1{font-size:clamp(26px,4vw,34px)}
+.doc-score{text-align:right}
+.doc-score .big{font-family:var(--f-mono);font-size:48px;font-weight:600;line-height:1}
+.doc h2{font-size:20px;margin-bottom:10px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+td.num{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+.disclaimer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-size:14px;max-width:calc(100% - 32px);z-index:20;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+
+@media (max-width:760px){
+  .hero,.res-top,.unlock{grid-template-columns:1fr}
+  .res-top .gauge{max-width:260px}
+  .weeks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps .lbl{display:none}
+  .drow{grid-template-columns:1fr 52px}
+  .drow .dbar{grid-column:1 / -1;grid-row:2}
+  .domains-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .code-box{min-width:0}
+}
+@media (max-width:420px){.weeks{grid-template-columns:1fr}.track .seg span{font-size:10px}}
+@media print{.top,.toast,.no-print,.btn{display:none!important}body{background:#fff;color:#000}main{padding:0}.doc{border:none;padding:0}.act,.week,.doc section{break-inside:avoid}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.5 13.5 3.6v4.1c0 3.3-2.3 5.8-5.5 6.8-3.2-1-5.5-3.5-5.5-6.8V3.6Z" fill="none" stroke="#fff" stroke-width="1.4"/><path d="m5.4 8 1.8 1.8L10.8 6.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div>AI Readiness &amp; Risk Scorecard<small>by BloWeD Consulting</small></div>
+    </div>
+    <nav aria-label="Progress"><ol class="steps" id="steps"></ol></nav>
+  </div>
+</header>
+<main><div class="wrap" id="app"></div></main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+/* ---------- CONTENT (edit wording, weights and fixes here) ---------- */
+const DOMAINS = [
+  {id:"DP", name:"Data Protection", blurb:"What data goes into AI, and how it is protected"},
+  {id:"AC", name:"Access & Accounts", blurb:"Who can get into your AI tools"},
+  {id:"TV", name:"Tools & Vendors", blurb:"Which tools you use, and whether they are safe"},
+  {id:"PG", name:"Policy & Governance", blurb:"Written rules and who owns AI risk"},
+  {id:"PS", name:"People & Skills", blurb:"Whether staff know how to use AI safely"},
+  {id:"OO", name:"Output & Operations", blurb:"Checking AI output and handling incidents"}
+];
+const EFFORT = {quick:"Quick win · under 1 day", short:"Short project · 1–5 days"};
+const COST = {free:"Free", low:"Low cost", paid:"Paid plan"};
+const Q = [
+ {id:"DP1",d:"DP",w:3,crit:true,q:"What kind of information do staff put into AI tools?",
+  hint:"Think ChatGPT, Gemini, Copilot or any chatbot. Sensitive information includes customer details, staff records, pricing, contracts and passwords.",
+  o:["Anything, including customer and financial details","Mostly internal info, sometimes customer details","Only non-sensitive info, out of habit","Only non-sensitive info, with clear rules on what is off-limits"],
+  fix:{t:"Set a “never paste” rule for sensitive data",why:"Anything typed into a public AI tool may be stored by the provider and seen by people you never intended.",steps:["List 5–8 data types staff must never paste in: customer names and contacts, ID numbers, bank details, passwords, contracts.","Share the list in your team chat and pin it.","Put it on a one-page note beside the AI tools staff use."],e:"quick",c:"free"}},
+ {id:"DP2",d:"DP",w:2,q:"Do you know where your sensitive data lives?",
+  hint:"Customer lists, HR files, finance records, contracts. Do you know which folders, apps and inboxes hold them?",
+  o:["No idea","Roughly, in our heads","Mostly listed somewhere","Documented and labelled by sensitivity"],
+  fix:{t:"Map where your sensitive data lives",why:"You cannot keep data away from AI tools if you don’t know where it sits.",steps:["Make a simple sheet: data type, where it is stored, who can access it.","Label each row Public, Internal or Confidential.","Mark which of those locations are connected to AI tools or automations."],e:"short",c:"free"}},
+ {id:"DP3",d:"DP",w:2,q:"Do you remove or mask personal details before using AI?",
+  hint:"For example, replacing a customer’s name with “Customer A” before asking AI to draft a reply.",
+  o:["Never","Occasionally","Usually","Always, with a simple method or tool"],
+  fix:{t:"Mask personal details before prompting",why:"Masking lets staff get AI help without exposing who the data is about.",steps:["Teach the “swap it out” habit: real names become Customer A, Supplier B.","Remove ID numbers, phone numbers and addresses entirely.","For frequent use, add a redaction tool that masks data before it is pasted."],e:"quick",c:"free"}},
+ {id:"AC1",d:"AC",w:3,crit:true,q:"Which accounts do staff use for AI tools?",
+  hint:"Personal free accounts sit outside your control. Business or team plans usually let you manage users and stop your data being used for training.",
+  o:["Personal free accounts","A mix of personal and business accounts","Mostly business accounts","Business or team accounts managed by the company"],
+  fix:{t:"Move AI use onto company-managed accounts",why:"With personal accounts you can’t see, control or remove access to company data.",steps:["Pick one main AI tool and buy a business or team plan.","Invite staff with work email addresses only.","Set a date after which personal accounts must not be used for work."],e:"short",c:"paid"}},
+ {id:"AC2",d:"AC",w:3,crit:true,q:"Is multi-factor authentication (MFA) on for AI and automation accounts?",
+  hint:"MFA adds a second check after the password, such as a code from an authenticator app. It blocks most account takeovers.",
+  o:["No, or not sure","On for some accounts","On for most accounts","On for all accounts and enforced"],
+  fix:{t:"Turn on MFA for every AI and automation account",why:"A stolen password to an AI account exposes every chat and file uploaded to it.",steps:["List every AI and automation account, including n8n, Zapier and Make.","Turn on MFA with an authenticator app rather than SMS where possible.","Enforce MFA in the admin settings of any team plan."],e:"quick",c:"free"}},
+ {id:"AC3",d:"AC",w:2,q:"When someone leaves, how fast is their AI and automation access removed?",
+  hint:"This includes AI tool logins, shared API keys and automation accounts they set up.",
+  o:["It usually isn’t","When we remember","Within a week","Same day, using a checklist"],
+  fix:{t:"Add AI tools to your offboarding checklist",why:"Former staff who keep access are a common cause of data leaks.",steps:["Add every AI and automation tool to your exit checklist.","Change any shared API keys or passwords the person knew.","Move ownership of automations they built before removing their account."],e:"quick",c:"free"}},
+ {id:"TV1",d:"TV",w:2,q:"Do you have a list of approved AI tools?",
+  hint:"A short list of tools staff may use for work, and a simple way to add new ones.",
+  o:["No, anyone uses anything","Informal favourites","A list exists but isn’t enforced","Written list; new tools need approval"],
+  fix:{t:"Publish an approved AI tools list",why:"A short approved list stops “shadow AI” and makes training and support easier.",steps:["Write down the AI tools in use today and approve 2–4 of them.","Say what each is approved for, e.g. drafting emails but not customer data.","Set a simple request route for new tools."],e:"quick",c:"free"}},
+ {id:"TV2",d:"TV",w:2,q:"Do you check a tool’s privacy and security terms before adopting it?",
+  hint:"Key questions: does it train on your data, how long does it keep it, and where is it stored?",
+  o:["Never","We skim them sometimes","Only for paid tools","Always, with a checklist"],
+  fix:{t:"Use a 5-question AI vendor check",why:"Free tools often keep your data or use it to train their models.",steps:["Before adopting a tool, check: training on your data, retention period, data location, MFA support, admin controls.","Record the answers in one shared sheet.","Re-check your main tools once a year."],e:"quick",c:"free"}},
+ {id:"TV3",d:"TV",w:1,q:"Do you know which AI browser extensions, plugins and connected apps are in use?",
+  hint:"Extensions and “connect to Google Drive” integrations can read far more than staff realise.",
+  o:["No","Some idea","Mostly","Full inventory, reviewed regularly"],
+  fix:{t:"Audit AI extensions and connected apps",why:"Extensions and app connections can quietly read email, files and browsing.",steps:["Ask staff to list the AI browser extensions they use.","Check connected apps in your Google Workspace or Microsoft 365 admin console.","Remove anything unapproved or unused."],e:"short",c:"free"}},
+ {id:"PG1",d:"PG",w:3,crit:true,q:"Do you have a written AI usage policy?",
+  hint:"A short document telling staff which tools to use, what data is off-limits and who checks AI output.",
+  o:["No","Verbal guidance only","A draft or partial policy","Written, shared and acknowledged by staff"],
+  fix:{t:"Write a one-page AI usage policy",why:"Without written rules, every staff member decides for themselves what is safe.",steps:["Cover approved tools, banned data, human review and who to ask.","Keep it to one page in plain language.","Have every staff member read and acknowledge it."],e:"short",c:"free"}},
+ {id:"PG2",d:"PG",w:2,q:"Is someone responsible for AI decisions and risks?",
+  hint:"One person who approves new tools, keeps the policy current and answers staff questions.",
+  o:["Nobody","The owner, informally","A named person, part-time","A named owner with a regular review"],
+  fix:{t:"Name an AI owner",why:"When everyone owns AI risk, nobody does.",steps:["Name one person as AI owner, even part-time.","Give them the approved tools list and the policy to maintain.","Book a 30-minute review every quarter."],e:"quick",c:"free"}},
+ {id:"PG3",d:"PG",w:2,q:"Do you know which data protection laws apply to your AI use?",
+  hint:"For example Singapore’s PDPA, or GDPR if you serve EU customers. They cover personal data you put into AI tools.",
+  o:["No","Heard of them","Understand the basics","Our AI use has been checked against them"],
+  fix:{t:"Check your AI use against data protection law",why:"Putting personal data into an AI tool is still processing personal data under laws like PDPA and GDPR.",steps:["List which AI uses involve personal data.","Check consent, purpose and overseas transfer rules for each.","Update your privacy notice if AI is used on customer data."],e:"short",c:"free"}},
+ {id:"PS1",d:"PS",w:2,q:"Have staff been trained on safe AI use?",
+  hint:"Practical training: what not to paste, how to spot wrong answers, which tools to use.",
+  o:["No","Self-taught only","A one-off briefing","Regular training with practical examples"],
+  fix:{t:"Run a 45-minute safe AI session",why:"Most AI incidents start with a well-meaning employee who didn’t know the risk.",steps:["Cover your policy, the never-paste list and real examples.","Let staff practise masking data in a prompt.","Repeat it yearly and for every new hire."],e:"short",c:"low"}},
+ {id:"PS2",d:"PS",w:2,q:"Can staff recognise AI-powered scams (deepfake voice, AI phishing)?",
+  hint:"Scammers now use AI to clone a boss’s voice or write convincing fake invoice emails.",
+  o:["No","Some can","Most can","Trained and tested"],
+  fix:{t:"Brief staff on AI-powered scams",why:"Cloned voices and flawless phishing emails now target small businesses directly.",steps:["Share 2–3 real examples of deepfake and AI phishing scams.","Make it a rule: payment or bank-detail changes are always confirmed by calling a known number.","Agree a code word for urgent requests from the owner."],e:"quick",c:"free"}},
+ {id:"PS3",d:"PS",w:1,q:"Do staff know who to ask before trying a new AI tool?",
+  hint:"A simple route for questions stops people signing up to risky tools on their own.",
+  o:["No","They ask around","They usually ask the owner","A clear, known process"],
+  fix:{t:"Make the “ask first” route obvious",why:"Staff will try new tools anyway; a clear route brings them to you first.",steps:["Tell staff who the AI owner is.","Create a simple request form or chat channel.","Reply within a few days so people keep using it."],e:"quick",c:"free"}},
+ {id:"OO1",d:"OO",w:3,crit:true,q:"Is AI-generated content checked by a person before it reaches customers?",
+  hint:"AI can be confidently wrong. Think quotes, replies, social posts, product descriptions and advice.",
+  o:["Never","Sometimes","Usually","Always, for anything customer-facing"],
+  fix:{t:"Require human review of customer-facing AI output",why:"AI can invent facts, prices or promises, and your business is accountable for them.",steps:["Make it a rule: a person reads and approves any AI text before a customer sees it.","Check names, numbers, prices and promises line by line.","For automated replies, start in draft mode before switching on auto-send."],e:"quick",c:"free"}},
+ {id:"OO2",d:"OO",w:1,q:"Do your automations (n8n, Zapier, Make) have logs and error alerts?",
+  hint:"Without logs and alerts, a broken or misused automation can run unnoticed for weeks.",
+  o:["No logs or alerts","We check manually when something breaks","Logs are kept","Logs, alerts and a named owner"], na:"We don’t use automations yet",
+  fix:{t:"Add logging and alerts to automations",why:"Silent failures can send wrong data to customers or drop orders for weeks.",steps:["Turn on execution logs in your automation tool.","Send error alerts to an email or chat channel someone checks.","Give every automation a named owner."],e:"short",c:"free"}},
+ {id:"OO3",d:"OO",w:2,q:"If AI leaks data or makes a costly mistake, do you know what to do?",
+  hint:"For example, a staff member pastes a customer list into a public chatbot, or an AI reply quotes the wrong price.",
+  o:["No plan","We’d figure it out","A general IT incident plan","A written plan covering AI, with contacts and steps"],
+  fix:{t:"Write a one-page AI incident plan",why:"The first hour after a leak decides how much damage is done.",steps:["Write down who to tell, what to switch off and how to get leaked data deleted.","Note when you may need to notify customers or the regulator.","Keep it with your AI policy and walk through it once a year."],e:"short",c:"free"}}
+];
+const INDUSTRIES = ["Retail & e-commerce","Professional services","F&B & hospitality","Healthcare & wellness","Education & training","Other"];
+const SIZES = ["1–5","6–20","21–50","51–200"];
+const STAGES = ["Just exploring","A few people use it","Used in daily work","Running automations"];
+const SAMPLE = {profile:{businessName:"Harbour Lane Studio (sample)",industry:"Professional services",teamSize:"6–20",aiStage:"Used in daily work"},
+  answers:{DP1:2,DP2:2,DP3:1,AC1:2,AC2:0,AC3:2,TV1:1,TV2:1,TV3:2,PG1:1,PG2:2,PG3:1,PS1:1,PS2:1,PS3:2,OO1:3,OO2:"na",OO3:1}};
+const CODE_HASH = "d6c730f0e48199c2fb02da9ffd5315b202fc6249690417e181f53e2cb1a72f86"; // SHA-256 of the access code
+const KEY = "airs-proto-v1";
+
+/* ---------- STATE ---------- */
+const fresh = () => ({screen:"landing", profile:{businessName:"",industry:"",teamSize:"",aiStage:""}, answers:{}, current:0, unlocked:false, startedAt:null, completedAt:null, sample:false});
+let S = fresh(), saved = null;
+try { const raw = localStorage.getItem(KEY); if (raw) saved = JSON.parse(raw); } catch(e) {}
+if (saved && saved.answers) { S = Object.assign(fresh(), saved, {screen:"landing"}); }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
+let ui = {hint:false, codeErr:"", resetArm:false};
+
+/* ---------- SCORING ---------- */
+function compute(answers){
+  const domains = DOMAINS.map(d => {
+    let got=0, max=0;
+    Q.filter(q=>q.d===d.id).forEach(q=>{ const a=answers[q.id]; if (typeof a==="number"){ got+=a*q.w; max+=3*q.w; } });
+    return {...d, score: max ? Math.round(got/max*100) : null};
+  });
+  const scored = domains.filter(d=>d.score!==null);
+  const overall = scored.length ? Math.round(scored.reduce((s,d)=>s+d.score,0)/scored.length) : 0;
+  const criticalGaps = Q.filter(q=>q.crit && answers[q.id]===0);
+  let band = overall>=70 ? "good" : overall>=40 ? "warn" : "crit";
+  const capped = band==="good" && criticalGaps.length>0;
+  if (capped) band = "warn";
+  const actions = Q.filter(q=>typeof answers[q.id]==="number" && answers[q.id]<=2).map(q=>{
+    const a=answers[q.id];
+    return {q, a, kind: a<=1 ? "fix":"improve", pri:(3-a)*q.w + (q.crit && a<=1 ? 10:0), critGap:q.crit && a===0};
+  }).sort((x,y)=> y.pri-x.pri || (x.q.fix.e==="quick"?0:1)-(y.q.fix.e==="quick"?0:1));
+  return {domains, overall, band, capped, criticalGaps, actions};
+}
+const BAND = {
+  good:{name:"Ready", head:"Strong foundations. Keep them maintained."},
+  warn:{name:"Getting there", head:"Some good habits, with gaps worth closing."},
+  crit:{name:"At risk", head:"Your AI use is likely exposing data today."}
+};
+const bandOf = s => s===null ? "na" : s>=70 ? "good" : s>=40 ? "warn" : "crit";
+const colorOf = b => b==="good" ? "var(--good)" : b==="warn" ? "var(--warn)" : b==="crit" ? "var(--crit)" : "var(--line)";
+const answeredCount = () => Q.filter(q=>q.id in S.answers).length;
+const complete = () => answeredCount()===Q.length;
+
+/* ---------- HELPERS ---------- */
+const esc = s => String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $ = s => document.querySelector(s);
+let toastT;
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,3200); }
+async function copy(text, okMsg){
+  try { await navigator.clipboard.writeText(text); toast(okMsg); }
+  catch(e){ const ta=document.createElement("textarea"); ta.value=text; ta.setAttribute("readonly",""); ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); let ok=false; try{ ok=document.execCommand("copy"); }catch(_){} ta.remove(); toast(ok?okMsg:"Copy isn’t available here. Select the text and copy it manually."); }
+}
+async function sha256(t){ const b=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join(""); }
+const today = () => new Date().toLocaleDateString("en-SG",{day:"numeric",month:"long",year:"numeric"});
+
+function gauge(score, band){
+  const L = Math.PI*80, v = L*score/100;
+  const pt = (p,r)=>[100 - r*Math.cos(Math.PI*p), 104 - r*Math.sin(Math.PI*p)];
+  const tick = p => { const [x1,y1]=pt(p,68), [x2,y2]=pt(p,92); return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="var(--muted)" stroke-width="1.2"/>`; };
+  return `<svg viewBox="0 0 200 128" role="img" aria-label="Overall score ${score} out of 100">
+    <path d="M20 104 A80 80 0 0 1 180 104" fill="none" stroke="var(--soft)" stroke-width="14" stroke-linecap="round"/>
+    <path d="M20 104 A80 80 0 0 1 180 104" fill="none" stroke="${colorOf(band)}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${v.toFixed(1)} ${L.toFixed(1)}"/>
+    ${tick(.4)}${tick(.7)}
+    <text x="100" y="96" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="600" font-size="40" fill="var(--ink)">${score}</text>
+    <text x="100" y="118" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--muted)">out of 100</text>
+    <text x="20" y="124" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--muted)">0</text>
+    <text x="180" y="124" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--muted)">100</text>
+  </svg>`;
+}
+function domainBars(domains){
+  return `<div class="dlist">${domains.map(d=>{ const b=bandOf(d.score); return `
+    <div class="drow">
+      <div class="nm">${esc(d.name)}<small>${d.id} · ${esc(d.blurb)}</small></div>
+      <div class="dbar" aria-hidden="true"><span class="tick" style="left:40%"></span><span class="tick" style="left:70%"></span><i style="width:${d.score??0}%;background:${colorOf(b)}"></i></div>
+      <div class="val">${d.score===null?"n/a":d.score}</div>
+    </div>`; }).join("")}</div>
+    <div class="legend"><span><i style="background:var(--crit)"></i>0–39 At risk</span><span><i style="background:var(--warn)"></i>40–69 Getting there</span><span><i style="background:var(--good)"></i>70–100 Ready</span></div>`;
+}
+
+/* ---------- SCREENS ---------- */
+const STEP_LIST = [["landing","Start"],["profile","Profile"],["quiz","Questions"],["results","Results"],["plan","Action plan"],["report","Report"]];
+function canGo(s){
+  if (s==="landing"||s==="profile") return true;
+  if (s==="quiz") return !!(S.profile.industry && S.profile.teamSize);
+  if (s==="results"||s==="plan") return complete();
+  if (s==="report") return complete() && S.unlocked;
+}
+function renderSteps(){
+  $("#steps").innerHTML = STEP_LIST.map(([k,l],i)=>`<li><button data-go="${k}" ${S.screen===k?'aria-current="step"':""} ${canGo(k)?"":"disabled"}><span class="n">${i+1}</span><span class="lbl">${l}</span></button></li>`).join("");
+}
+
+function vLanding(){
+  const r = compute(SAMPLE.answers);
+  const resume = answeredCount()>0 && !complete();
+  const done = complete();
+  return `
+  ${resume ? `<div class="resume"><span><b>Continue where you left off.</b> ${answeredCount()} of ${Q.length} questions answered.</span><button class="btn primary" data-act="resume">Continue</button></div>`:""}
+  ${done ? `<div class="resume"><span><b>Your last result is saved in this browser.</b></span><button class="btn primary" data-go="results">View my results</button></div>`:""}
+  <section class="hero">
+    <div>
+      <span class="chip accent">Free · 5 minutes · 18 questions</span>
+      <h1>Is your business using AI safely?</h1>
+      <p class="lead">Your staff are probably already using ChatGPT and other AI tools. Find out where that leaves your customer data, and get a plain-English list of fixes.</p>
+      <ul class="benefits">
+        <li><span class="ic">01</span><div><b>A score out of 100</b><span>See how you rate across six areas, from data protection to staff skills.</span></div></li>
+        <li><span class="ic">02</span><div><b>Critical gaps flagged</b><span>Five issues that can leak data on their own are called out in red.</span></div></li>
+        <li><span class="ic">03</span><div><b>A prioritised fix list</b><span>Quick wins first, with effort and cost for every fix.</span></div></li>
+      </ul>
+      <div class="row">
+        <button class="btn primary" data-act="start">Start free check</button>
+        <button class="btn" data-act="sample">See a sample result</button>
+      </div>
+      <p class="privacy"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span>Your answers stay in this browser. Nothing is sent to us or anyone else. This is a self-assessment for awareness, not a security audit or legal advice.</span></p>
+    </div>
+    <div class="panel sample" aria-label="Sample result preview">
+      <span class="chip sample-tag">Sample result</span>
+      <div class="gauge" style="max-width:220px;margin:4px auto 0">${gauge(r.overall, r.band)}</div>
+      <p style="text-align:center;margin:6px 0 16px"><span class="band-pill band-${r.band}">${BAND[r.band].name}</span></p>
+      <div class="dlist">${r.domains.map(d=>`<div class="drow" style="grid-template-columns:1fr 34px"><div class="nm" style="font-size:13px">${esc(d.name)}</div><div class="val" style="font-size:13px">${d.score}</div><div class="dbar" style="grid-column:1/-1;height:8px"><i style="width:${d.score}%;background:${colorOf(bandOf(d.score))}"></i></div></div>`).join("")}</div>
+    </div>
+  </section>
+  <section class="panel">
+    <p class="eyebrow" style="margin-bottom:14px">The six areas we check</p>
+    <div class="domains-strip">${DOMAINS.map(d=>`<div><span class="mono">${d.id}</span><b>${esc(d.name)}</b><span>${esc(d.blurb)}</span></div>`).join("")}</div>
+  </section>`;
+}
+
+function vProfile(){
+  const p = S.profile, ok = p.industry && p.teamSize;
+  const picks = (field, list) => `<div class="choice-row" role="group">${list.map(v=>`<button class="pick" data-pick="${field}" data-val="${esc(v)}" aria-pressed="${p[field]===v}">${esc(v)}</button>`).join("")}</div>`;
+  return `<div class="narrow" style="display:grid;gap:24px">
+    <div><p class="eyebrow">Step 2 of 6</p><h1 style="font-size:32px;margin-top:6px">About your business</h1><p class="lead" style="margin-top:8px">This tailors your report. It takes 30 seconds.</p></div>
+    <form class="panel form" id="pform" novalidate>
+      <div class="field"><label for="bname">Business name <span class="opt">(optional, only shown on your report)</span></label><input class="input" id="bname" autocomplete="organization" value="${esc(p.businessName)}" placeholder="e.g. Harbour Lane Studio"></div>
+      <div class="field"><span class="lbl" id="l-ind">Industry</span>${picks("industry",INDUSTRIES)}</div>
+      <div class="field"><span class="lbl">Team size</span>${picks("teamSize",SIZES)}</div>
+      <div class="field"><span class="lbl">How do you use AI today? <span class="opt">(optional)</span></span>${picks("aiStage",STAGES)}</div>
+      <div class="qnav"><button type="button" class="btn ghost" data-go="landing">← Back</button><button type="submit" class="btn primary" ${ok?"":"disabled"}>Start the questions</button></div>
+      ${ok?"":`<p class="kbd" style="margin-top:-10px">Choose an industry and team size to continue.</p>`}
+    </form></div>`;
+}
+
+function vQuiz(){
+  const q = Q[S.current], d = DOMAINS.find(x=>x.id===q.d), a = S.answers[q.id];
+  const segs = DOMAINS.map(dm=>{ const qs=Q.filter(x=>x.d===dm.id), n=qs.filter(x=>x.id in S.answers).length; return `<div class="seg ${dm.id===q.d?"on":""}"><div class="bar"><i style="width:${n/qs.length*100}%"></i></div><span>${dm.id} ${esc(dm.name)}</span></div>`; }).join("");
+  const opts = q.o.map((t,i)=>`<button class="option" role="radio" aria-checked="${a===i}" data-ans="${i}"><span class="k">${i+1}</span><span>${esc(t)}</span></button>`).join("")
+    + (q.na ? `<button class="option na" role="radio" aria-checked="${a==="na"}" data-ans="na"><span class="k">–</span><span>${esc(q.na)} <span class="kbd">(not scored)</span></span></button>`:"");
+  const last = S.current===Q.length-1;
+  return `<div class="track" aria-label="Progress by area">${segs}</div>
+  <div class="narrow" style="display:grid;gap:20px;width:100%;margin:0 auto">
+    <div class="qhead"><span class="eyebrow">${esc(d.name)} · Question ${S.current+1} of ${Q.length}</span>${q.crit?`<span class="chip crit">Critical</span>`:""}</div>
+    <h1 class="qtitle">${esc(q.q)}</h1>
+    <div><button class="hint-btn" data-act="hint" aria-expanded="${ui.hint}">${ui.hint?"Hide explanation":"What does this mean?"}</button>${ui.hint?`<p class="hint" style="margin-top:8px">${esc(q.hint)}</p>`:""}</div>
+    <div class="options" role="radiogroup" aria-label="${esc(q.q)}">${opts}</div>
+    <div class="qnav">
+      <button class="btn ghost" data-act="prev">← ${S.current===0?"Profile":"Back"}</button>
+      <span class="kbd">Tip: press 1–4 to answer</span>
+      <button class="btn primary" data-act="next" ${a===undefined?"disabled":""}>${last?"See my results":"Next →"}</button>
+    </div>
+  </div>`;
+}
+
+function vResults(){
+  const r = compute(S.answers), name = S.profile.businessName;
+  return `<div class="row" style="justify-content:space-between"><div><p class="eyebrow">Your results${name?` · ${esc(name)}`:""}</p><h1 style="font-size:32px;margin-top:6px">AI Readiness score</h1></div>${S.sample?`<span class="chip">Sample answers</span>`:""}</div>
+  <section class="panel res-top">
+    <div class="gauge">${gauge(r.overall, r.band)}</div>
+    <div style="display:grid;gap:12px">
+      <div><span class="band-pill band-${r.band}">${BAND[r.band].name}</span></div>
+      <p style="font-size:19px;font-weight:600">${BAND[r.band].head}</p>
+      <p class="kbd" style="font-size:14px">${r.capped?"Your score is in the Ready range, but a critical gap holds you at Getting there until it is fixed.":`You answered ${Q.length} questions across 6 areas. ${r.actions.filter(x=>x.kind==="fix").length} gaps need attention.`}</p>
+      <div class="row"><button class="btn primary" data-go="plan">See my action plan →</button><button class="btn" data-act="share">Share my score</button></div>
+    </div>
+  </section>
+  ${r.criticalGaps.length?`<section class="alert" role="alert"><h3>${r.criticalGaps.length} critical gap${r.criticalGaps.length>1?"s":""} found</h3><ul>${r.criticalGaps.map(q=>`<li><b>${q.id}</b> · ${esc(q.fix.t)}</li>`).join("")}</ul><p style="font-size:13.5px">Each of these can cause a data leak or customer harm on its own. They are at the top of your action plan.</p></section>`:""}
+  <section class="panel" style="display:grid;gap:18px"><h2 style="font-size:20px">Score by area</h2>${domainBars(r.domains)}</section>
+  <section class="panel row" style="justify-content:space-between"><div style="max-width:52ch"><b>Want help closing these gaps?</b><p class="kbd" style="font-size:14px;margin-top:4px">Book a 60-minute AI Safety Review. We go through your results together and leave you with a written fix plan.</p></div><button class="btn" data-act="book">Book a review</button></section>
+  <div class="row" style="justify-content:space-between"><button class="btn ghost" data-act="edit">← Change my answers</button><button class="btn ghost" data-act="reset">${ui.resetArm?"Click again to clear all answers":"Start over"}</button></div>`;
+}
+
+function actCard(x, full){
+  const cls = x.critGap ? "p-crit" : x.kind==="fix" ? "p-fix" : "p-imp";
+  const tag = x.critGap ? `<span class="chip crit">Critical gap</span>` : x.kind==="fix" ? `<span class="chip warn">Fix</span>` : `<span class="chip accent">Improve</span>`;
+  return `<article class="act ${cls}">
+    <div class="act-h"><div><span class="qref">${x.q.id} · ${esc(DOMAINS.find(d=>d.id===x.q.d).name)}</span><h3>${esc(x.q.fix.t)}</h3></div>${tag}</div>
+    <p class="why">${esc(x.q.fix.why)}</p>
+    ${full?`<ol>${x.q.fix.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol><div class="meta"><span class="chip">${EFFORT[x.q.fix.e]}</span><span class="chip">${COST[x.q.fix.c]}</span></div>`:""}
+  </article>`;
+}
+function thirtyDay(actions){
+  const fixes = actions.filter(a=>a.kind==="fix");
+  const quick = fixes.filter(a=>a.q.fix.e==="quick"), shorts = fixes.filter(a=>a.q.fix.e==="short");
+  const w = [quick.slice(0,4), [], [], []];
+  shorts.forEach((a,i)=>w[1+(i%3)].push(a));
+  quick.slice(4).forEach((a,i)=>w[1+(i%3)].push(a));
+  const later = actions.filter(a=>a.kind==="improve");
+  return `<div class="weeks">${w.map((list,i)=>`<div class="week"><span class="mono">Week ${i+1}</span>${list.length?`<ul>${list.map(a=>`<li>${esc(a.q.fix.t)}</li>`).join("")}</ul>`:`<span class="empty">Catch-up time</span>`}</div>`).join("")}</div>
+  ${later.length?`<p class="kbd" style="font-size:14px">After day 30: ${later.length} “Improve” item${later.length>1?"s":""} to raise good habits to fully in place.</p>`:""}`;
+}
+
+function vPlan(){
+  const r = compute(S.answers), fixes = r.actions.filter(a=>a.kind==="fix");
+  if (!r.actions.length) return `<div class="panel"><h1 style="font-size:28px">Nothing to fix. Well done.</h1><p class="lead" style="margin-top:8px">Every area is fully in place. Re-run this check every six months, and whenever you add a new AI tool.</p></div>`;
+  const head = `<div><p class="eyebrow">Step 5 of 6</p><h1 style="font-size:32px;margin-top:6px">Your action plan</h1><p class="lead" style="margin-top:8px">${fixes.length} fix${fixes.length===1?"":"es"} ranked by risk, critical gaps first and quick wins before bigger projects.</p></div>`;
+  if (!S.unlocked){
+    const free = fixes.slice(0,3), rest = r.actions.length - free.length;
+    return `${head}
+    <div class="acts">${free.map(x=>actCard(x,false)).join("")}</div>
+    ${rest>0?`<div class="locked"><div class="blur acts" aria-hidden="true">${r.actions.slice(3,5).map(x=>actCard(x,true)).join("")}</div></div>`:""}
+    <section class="unlock">
+      <div><h2>Unlock the full report</h2><p style="margin-top:6px">Get step-by-step instructions for every fix${rest>0?`, plus ${rest} more item${rest>1?"s":""}`:""}.</p>
+        <ul><li>Steps, effort and cost for each fix</li><li>A week-by-week 30-day plan</li><li>A report you can save and share with your team</li></ul></div>
+      <form class="code-box" id="cform" novalidate>
+        <a class="btn primary" href="https://gumroad.com/" target="_blank" rel="noopener">Buy full report · US$19</a>
+        <label for="code" style="font-size:13px;margin-top:6px">Already bought? Enter your access code</label>
+        <input id="code" autocomplete="off" spellcheck="false" placeholder="ACCESS CODE" aria-describedby="code-help">
+        ${ui.codeErr?`<span class="err" role="alert">${esc(ui.codeErr)}</span>`:""}
+        <button class="btn" type="submit">Unlock</button>
+        <small id="code-help">Prototype: use code <b class="mono">DEMO19</b></small>
+      </form>
+    </section>
+    <div class="row" style="justify-content:space-between"><button class="btn ghost" data-go="results">← Results</button><button class="btn" data-act="book">Book a review instead</button></div>`;
+  }
+  return `${head}
+    <div class="acts">${r.actions.map(x=>actCard(x,true)).join("")}</div>
+    <section class="panel" style="display:grid;gap:14px"><h2 style="font-size:20px">Your 30-day plan</h2>${thirtyDay(r.actions)}</section>
+    <div class="row" style="justify-content:space-between"><button class="btn ghost" data-go="results">← Results</button><button class="btn primary" data-go="report">View full report →</button></div>`;
+}
+
+function reportText(){
+  const r = compute(S.answers), p = S.profile;
+  let t = `AI READINESS & RISK SCORECARD\n${p.businessName||"Your business"} · ${p.industry} · ${p.teamSize} staff\n${today()}\n\nOverall score: ${r.overall}/100 (${BAND[r.band].name})\n${BAND[r.band].head}\n\nSCORE BY AREA\n`;
+  r.domains.forEach(d=> t+=`- ${d.name}: ${d.score===null?"n/a":d.score}\n`);
+  if (r.criticalGaps.length){ t+=`\nCRITICAL GAPS\n`; r.criticalGaps.forEach(q=> t+=`- ${q.id}: ${q.fix.t}\n`); }
+  t+=`\nACTION PLAN\n`;
+  r.actions.forEach((x,i)=>{ t+=`\n${i+1}. ${x.q.fix.t} [${x.kind==="fix"?"Fix":"Improve"} · ${EFFORT[x.q.fix.e]} · ${COST[x.q.fix.c]}]\n   ${x.q.fix.why}\n`; x.q.fix.steps.forEach(s=> t+=`   - ${s}\n`); });
+  t+=`\nThis is a self-assessment for awareness, not a security audit or legal advice.\nBloWeD Consulting`;
+  return t;
+}
+function vReport(){
+  const r = compute(S.answers), p = S.profile;
+  return `<div class="row" style="justify-content:space-between"><div><p class="eyebrow">Step 6 of 6</p><h1 style="font-size:28px;margin-top:6px">Full report</h1></div><div class="row no-print"><button class="btn primary" data-act="print">Save as PDF</button><button class="btn" data-act="copyreport">Copy report text</button><button class="btn" data-act="book">Book a review</button></div></div>
+  
+  <article class="doc">
+    <header class="doc-cover">
+      <div><p class="eyebrow">AI Readiness &amp; Risk Report</p><h1 style="margin-top:6px">${esc(p.businessName||"Your business")}</h1><p class="kbd" style="font-size:14px;margin-top:6px">${esc(p.industry)} · ${esc(p.teamSize)} staff${p.aiStage?` · ${esc(p.aiStage)}`:""} · ${today()}</p></div>
+      <div class="doc-score"><div class="big">${r.overall}</div><span class="band-pill band-${r.band}" style="font-size:15px;margin-top:8px">${BAND[r.band].name}</span></div>
+    </header>
+    <section><h2>Summary</h2><p>${BAND[r.band].head} ${r.criticalGaps.length?`There ${r.criticalGaps.length>1?"are":"is"} <b>${r.criticalGaps.length} critical gap${r.criticalGaps.length>1?"s":""}</b> to close first: ${r.criticalGaps.map(q=>esc(q.fix.t.toLowerCase())).join("; ")}.`:"No critical gaps were found."}</p></section>
+    <section><h2>Score by area</h2><div class="tbl-wrap"><table><thead><tr><th>Area</th><th>Status</th><th style="text-align:right">Score</th></tr></thead><tbody>
+      ${r.domains.map(d=>{const b=bandOf(d.score);return `<tr><td>${esc(d.name)}</td><td>${b==="na"?"Not scored":`<span class="chip ${b}">${BAND[b].name}</span>`}</td><td class="num">${d.score??"n/a"}</td></tr>`;}).join("")}
+    </tbody></table></div></section>
+    <section><h2>Action plan</h2><div class="acts">${r.actions.map(x=>actCard(x,true)).join("")}</div></section>
+    <section><h2>30-day plan</h2>${thirtyDay(r.actions)}</section>
+    <p class="disclaimer">This report is a self-assessment for awareness. It is not a security audit, certification or legal advice. Answers were entered by the business and were not verified. Prepared with the AI Readiness &amp; Risk Scorecard by BloWeD Consulting.</p>
+  </article>
+  <div class="row" style="justify-content:space-between"><button class="btn ghost" data-go="plan">← Action plan</button><button class="btn ghost" data-act="reset">${ui.resetArm?"Click again to clear all answers":"Start a new assessment"}</button></div>`;
+}
+
+/* ---------- RENDER + EVENTS ---------- */
+function go(screen){ if (!canGo(screen)) return; S.screen=screen; ui.hint=false; ui.codeErr=""; ui.resetArm=false; save(); render(); window.scrollTo({top:0}); }
+function render(){
+  const v = {landing:vLanding, profile:vProfile, quiz:vQuiz, results:vResults, plan:vPlan, report:vReport}[S.screen];
+  $("#app").innerHTML = v(); renderSteps();
+  const pf=$("#pform"); if (pf) pf.addEventListener("submit", e=>{ e.preventDefault(); S.profile.businessName=$("#bname").value.trim(); if(!S.startedAt) S.startedAt=new Date().toISOString(); go("quiz"); });
+  const bn=$("#bname"); if (bn) bn.addEventListener("input", e=>{ S.profile.businessName=e.target.value; save(); });
+  const cf=$("#cform"); if (cf) cf.addEventListener("submit", async e=>{ e.preventDefault(); const v=$("#code").value.trim().toUpperCase(); if(!v){ ui.codeErr="Enter the code from your receipt email."; render(); return; }
+    let ok=false; try{ ok = (await sha256(v))===CODE_HASH; }catch(_){ ok = v==="DEMO19"; }
+    if(ok){ S.unlocked=true; ui.codeErr=""; save(); render(); toast("Full report unlocked."); } else { ui.codeErr="That code doesn’t match. Check your receipt email and try again."; render(); $("#code")?.focus(); } });
+}
+function answer(val){
+  const q=Q[S.current]; S.answers[q.id]= val==="na" ? "na" : Number(val); save();
+  if (S.current<Q.length-1){ render(); setTimeout(()=>{ if(S.screen==="quiz" && Q[S.current].id===q.id){ S.current++; ui.hint=false; save(); render(); } }, 260); }
+  else render();
+}
+document.addEventListener("click", e=>{
+  const g=e.target.closest("[data-go]"); if (g && !g.disabled){ go(g.dataset.go); return; }
+  const pk=e.target.closest("[data-pick]"); if (pk){ const f=pk.dataset.pick, v=pk.dataset.val; S.profile[f] = S.profile[f]===v && f==="aiStage" ? "" : v; S.profile.businessName=$("#bname")?.value.trim()??S.profile.businessName; save(); render(); return; }
+  const an=e.target.closest("[data-ans]"); if (an){ answer(an.dataset.ans); return; }
+  const a=e.target.closest("[data-act]"); if (!a) return;
+  const act=a.dataset.act;
+  if (act!=="reset") ui.resetArm=false;
+  if (act==="start"){ if (S.sample){ S=fresh(); } go("profile"); }
+  else if (act==="resume"){ const i=Q.findIndex(q=>!(q.id in S.answers)); S.current=i<0?0:i; go(canGo("quiz")?"quiz":"profile"); }
+  else if (act==="sample"){ S=Object.assign(fresh(), {profile:{...SAMPLE.profile}, answers:{...SAMPLE.answers}, sample:true, completedAt:new Date().toISOString()}); go("results"); }
+  else if (act==="hint"){ ui.hint=!ui.hint; render(); }
+  else if (act==="prev"){ if (S.current===0) go("profile"); else { S.current--; ui.hint=false; save(); render(); } }
+  else if (act==="next"){ if (S.current<Q.length-1){ S.current++; ui.hint=false; save(); render(); } else { S.completedAt=new Date().toISOString(); go("results"); } }
+  else if (act==="edit"){ S.current=0; go("quiz"); }
+  else if (act==="share"){ const r=compute(S.answers); copy(`Our AI Readiness score: ${r.overall}/100 (${BAND[r.band].name}). How safely is your business using AI? Take the free 5-minute check:`, "Copied. Paste it into your Threads post."); }
+  else if (act==="print"){ window.print(); }
+  else if (act==="copyreport"){ copy(reportText(), "Report copied as text."); }
+  else if (act==="book"){ toast("In the live app, this opens your booking page."); }
+  else if (act==="reset"){ if (!ui.resetArm){ ui.resetArm=true; render(); } else { S=fresh(); try{ localStorage.removeItem(KEY); }catch(_){} ui.resetArm=false; render(); window.scrollTo({top:0}); toast("All answers cleared from this browser."); } }
+});
+document.addEventListener("keydown", e=>{
+  if (S.screen!=="quiz" || e.target.matches("input,textarea")) return;
+  const q=Q[S.current];
+  if (/^[1-4]$/.test(e.key)) answer(Number(e.key)-1);
+  else if (e.key==="0" && q.na) answer("na");
+});
+render();
+</script>
+
+</body>
+</html>
