@@ -322,6 +322,15 @@ const SAMPLE = {profile:{businessName:"Harbour Lane Studio (sample)",industry:"P
   answers:{DP1:2,DP2:2,DP3:1,AC1:2,AC2:0,AC3:2,TV1:1,TV2:1,TV3:2,PG1:1,PG2:2,PG3:1,PS1:1,PS2:1,PS3:2,OO1:3,OO2:"na",OO3:1}};
 const CODE_HASH = "d6c730f0e48199c2fb02da9ffd5315b202fc6249690417e181f53e2cb1a72f86"; // SHA-256 of the access code
 const KEY = "airs-proto-v1";
+/* Booking: your Google Calendar booking page. If left empty, the button falls back to a pre-filled
+   Google Calendar invite addressed to BOOKING_EMAIL. */
+const BOOKING_URL = "https://calendar.app.google/ngneqB9G83vbwryV7";
+const BOOKING_EMAIL = "";
+const bookHref = () => BOOKING_URL || ("https://calendar.google.com/calendar/render?action=TEMPLATE"
+  + "&text=" + encodeURIComponent("AI Safety Review with BloWeD Consulting")
+  + "&details=" + encodeURIComponent("60-minute AI Safety Review: we go through your AI Readiness Scorecard results together, and you get a written fix plan.")
+  + "&add=" + encodeURIComponent(BOOKING_EMAIL));
+const bookLink = (label, cls) => `<a class="btn ${cls||""}" href="${esc(bookHref())}" target="_blank" rel="noopener">${label}</a>`;
 
 /* ---------- STATE ---------- */
 const fresh = () => ({screen:"landing", profile:{businessName:"",industry:"",teamSize:"",aiStage:""}, answers:{}, current:0, unlocked:false, startedAt:null, completedAt:null, sample:false});
@@ -493,7 +502,7 @@ function vResults(){
   </section>
   ${r.criticalGaps.length?`<section class="alert" role="alert"><h3>${r.criticalGaps.length} critical gap${r.criticalGaps.length>1?"s":""} found</h3><ul>${r.criticalGaps.map(q=>`<li><b>${q.id}</b> · ${esc(q.fix.t)}</li>`).join("")}</ul><p style="font-size:13.5px">Each of these can cause a data leak or customer harm on its own. They are at the top of your action plan.</p></section>`:""}
   <section class="panel" style="display:grid;gap:18px"><h2 style="font-size:20px">Score by area</h2>${domainBars(r.domains)}</section>
-  <section class="panel row" style="justify-content:space-between"><div style="max-width:52ch"><b>Want help closing these gaps?</b><p class="kbd" style="font-size:14px;margin-top:4px">Book a 60-minute AI Safety Review. We go through your results together and leave you with a written fix plan.</p></div><button class="btn" data-act="book">Book a review</button></section>
+  <section class="panel row" style="justify-content:space-between"><div style="max-width:52ch"><b>Want help closing these gaps?</b><p class="kbd" style="font-size:14px;margin-top:4px">Book a 60-minute AI Safety Review. We go through your results together and leave you with a written fix plan.</p></div>${bookLink("Book a review")}</section>
   <div class="row" style="justify-content:space-between"><button class="btn ghost" data-act="edit">← Change my answers</button><button class="btn ghost" data-act="reset">${ui.resetArm?"Click again to clear all answers":"Start over"}</button></div>`;
 }
 
@@ -538,7 +547,7 @@ function vPlan(){
         <small id="code-help">Prototype: use code <b class="mono">DEMO19</b></small>
       </form>
     </section>
-    <div class="row" style="justify-content:space-between"><button class="btn ghost" data-go="results">← Results</button><button class="btn" data-act="book">Book a review instead</button></div>`;
+    <div class="row" style="justify-content:space-between"><button class="btn ghost" data-go="results">← Results</button>${bookLink("Book a review instead")}</div>`;
   }
   return `${head}
     <div class="acts">${r.actions.map(x=>actCard(x,true)).join("")}</div>
@@ -558,7 +567,7 @@ function reportText(){
 }
 function vReport(){
   const r = compute(S.answers), p = S.profile;
-  return `<div class="row" style="justify-content:space-between"><div><p class="eyebrow">Step 6 of 6</p><h1 style="font-size:28px;margin-top:6px">Full report</h1></div><div class="row no-print"><button class="btn primary" data-act="print">Save as PDF</button><button class="btn" data-act="copyreport">Copy report text</button><button class="btn" data-act="book">Book a review</button></div></div>
+  return `<div class="row" style="justify-content:space-between"><div><p class="eyebrow">Step 6 of 6</p><h1 style="font-size:28px;margin-top:6px">Full report</h1></div><div class="row no-print"><button class="btn primary" data-act="print">Save as PDF</button><button class="btn" data-act="copyreport">Copy report text</button>${bookLink("Book a review")}</div></div>
   
   <article class="doc">
     <header class="doc-cover">
@@ -609,7 +618,6 @@ document.addEventListener("click", e=>{
   else if (act==="share"){ const r=compute(S.answers); copy(`Our AI Readiness score: ${r.overall}/100 (${BAND[r.band].name}). How safely is your business using AI? Take the free 5-minute check:`, "Copied. Paste it into your Threads post."); }
   else if (act==="print"){ window.print(); }
   else if (act==="copyreport"){ copy(reportText(), "Report copied as text."); }
-  else if (act==="book"){ toast("In the live app, this opens your booking page."); }
   else if (act==="reset"){ if (!ui.resetArm){ ui.resetArm=true; render(); } else { S=fresh(); try{ localStorage.removeItem(KEY); }catch(_){} ui.resetArm=false; render(); window.scrollTo({top:0}); toast("All answers cleared from this browser."); } }
 });
 document.addEventListener("keydown", e=>{
