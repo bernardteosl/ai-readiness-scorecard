@@ -320,7 +320,7 @@ const SIZES = ["1–5","6–20","21–50","51–200"];
 const STAGES = ["Just exploring","A few people use it","Used in daily work","Running automations"];
 const SAMPLE = {profile:{businessName:"Harbour Lane Studio (sample)",industry:"Professional services",teamSize:"6–20",aiStage:"Used in daily work"},
   answers:{DP1:2,DP2:2,DP3:1,AC1:2,AC2:0,AC3:2,TV1:1,TV2:1,TV3:2,PG1:1,PG2:2,PG3:1,PS1:1,PS2:1,PS3:2,OO1:3,OO2:"na",OO3:1}};
-const CODE_HASH = "d6c730f0e48199c2fb02da9ffd5315b202fc6249690417e181f53e2cb1a72f86"; // SHA-256 of the access code
+const CODE_HASH = "4bb46d08e3f29728057968ef313c3ac93753d0d8a0db09c16f56f0be3f02361c"; // SHA-256 of the access code
 const KEY = "airs-proto-v1";
 /* Booking: your Google Calendar booking page. If left empty, the button falls back to a pre-filled
    Google Calendar invite addressed to BOOKING_EMAIL. */
@@ -541,10 +541,9 @@ function vPlan(){
       <form class="code-box" id="cform" novalidate>
         <a class="btn primary" href="https://gumroad.com/" target="_blank" rel="noopener">Buy full report · US$19</a>
         <label for="code" style="font-size:13px;margin-top:6px">Already bought? Enter your access code</label>
-        <input id="code" autocomplete="off" spellcheck="false" placeholder="ACCESS CODE" aria-describedby="code-help">
+        <input id="code" autocomplete="off" spellcheck="false" placeholder="ACCESS CODE">
         ${ui.codeErr?`<span class="err" role="alert">${esc(ui.codeErr)}</span>`:""}
         <button class="btn" type="submit">Unlock</button>
-        <small id="code-help">Prototype: use code <b class="mono">DEMO19</b></small>
       </form>
     </section>
     <div class="row" style="justify-content:space-between"><button class="btn ghost" data-go="results">← Results</button>${bookLink("Book a review instead")}</div>`;
@@ -593,7 +592,7 @@ function render(){
   const pf=$("#pform"); if (pf) pf.addEventListener("submit", e=>{ e.preventDefault(); S.profile.businessName=$("#bname").value.trim(); if(!S.startedAt) S.startedAt=new Date().toISOString(); go("quiz"); });
   const bn=$("#bname"); if (bn) bn.addEventListener("input", e=>{ S.profile.businessName=e.target.value; save(); });
   const cf=$("#cform"); if (cf) cf.addEventListener("submit", async e=>{ e.preventDefault(); const v=$("#code").value.trim().toUpperCase(); if(!v){ ui.codeErr="Enter the code from your receipt email."; render(); return; }
-    let ok=false; try{ ok = (await sha256(v))===CODE_HASH; }catch(_){ ok = v==="DEMO19"; }
+    let ok=false; try{ ok = (await sha256(v))===CODE_HASH; }catch(_){ ok = false; }
     if(ok){ S.unlocked=true; ui.codeErr=""; save(); render(); toast("Full report unlocked."); } else { ui.codeErr="That code doesn’t match. Check your receipt email and try again."; render(); $("#code")?.focus(); } });
 }
 function answer(val){
