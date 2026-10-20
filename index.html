@@ -337,6 +337,8 @@ const fresh = () => ({screen:"landing", profile:{businessName:"",industry:"",tea
 let S = fresh(), saved = null;
 try { const raw = localStorage.getItem(KEY); if (raw) saved = JSON.parse(raw); } catch(e) {}
 if (saved && saved.answers) { S = Object.assign(fresh(), saved, {screen:"landing"}); }
+/* Coming back from the product page (index.html#plan): reopen the action plan if the assessment is complete. */
+if (location.hash === "#plan" && Q.every(q => q.id in S.answers)) { S.screen = "plan"; }
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
 let ui = {hint:false, codeErr:"", resetArm:false};
 
@@ -539,7 +541,7 @@ function vPlan(){
       <div><h2>Unlock the full report</h2><p style="margin-top:6px">Get step-by-step instructions for every fix${rest>0?`, plus ${rest} more item${rest>1?"s":""}`:""}.</p>
         <ul><li>Steps, effort and cost for each fix</li><li>A week-by-week 30-day plan</li><li>A report you can save and share with your team</li></ul></div>
       <form class="code-box" id="cform" novalidate>
-        <a class="btn primary" href="https://gumroad.com/" target="_blank" rel="noopener">Buy full report · US$19</a>
+        <a class="btn primary" href="buy.html">Buy full report · US$19</a>
         <label for="code" style="font-size:13px;margin-top:6px">Already bought? Enter your access code</label>
         <input id="code" autocomplete="off" spellcheck="false" placeholder="ACCESS CODE">
         ${ui.codeErr?`<span class="err" role="alert">${esc(ui.codeErr)}</span>`:""}
