@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Full AI Readiness Report · US$19</title>
+<meta name="description" content="Turn your AI Readiness score into a step-by-step fix plan: every fix with steps, effort and cost, a 30-day plan and a report to share with your team. US$19, one-time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Same design tokens as the scorecard, so the two pages read as one product. */
+:root{
+  --paper:#F3F5F2; --surface:#FFFFFF; --ink:#14201D; --muted:#5A6763; --line:#D9DFDB; --soft:#E9EDEA;
+  --accent:#2C55C9; --accent-ink:#FFFFFF; --accent-soft:#E6ECFB;
+  --good:#1D8456; --warn:#B87C06; --crit:#C2412D;
+  --good-soft:#E3F2EA; --warn-soft:#FAF0D9; --crit-soft:#FBE7E3;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1413; --surface:#162020; --ink:#E6ECE9; --muted:#9BA8A4; --line:#2A3634; --soft:#1D2928;
+  --accent:#86A2FF; --accent-ink:#0E1413; --accent-soft:#1E2A47;
+  --good:#4BC089; --warn:#E5B23F; --crit:#F27B66;
+  --good-soft:#15302A; --warn-soft:#33290F; --crit-soft:#3A1D18; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:-0.015em;line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+[hidden]{display:none!important}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+.top{background:var(--surface);border-bottom:1px solid var(--line);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
+.top-in{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;text-decoration:none}
+.mark{width:26px;height:26px;border-radius:7px;background:var(--ink);display:grid;place-items:center}
+.brand small{display:block;font-weight:400;color:var(--muted);font-size:12px;line-height:1.2}
+.back{font-size:14px;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:36px 64px}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{color:var(--muted);font-size:17px;max-width:58ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px;background:var(--soft);color:var(--muted)}
+.chip.crit{background:var(--crit-soft);color:var(--crit)}
+.chip.accent{background:var(--accent-soft);color:var(--accent)}
+
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}
+.hero > *{min-width:0}
+.hero h1{font-size:clamp(32px,5vw,48px);margin:10px 0 14px}
+.checks{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
+.checks li{display:grid;grid-template-columns:22px 1fr;gap:10px}
+.checks svg{margin-top:3px}
+
+.buy{position:sticky;top:16px;display:grid;gap:16px}
+.price{display:flex;align-items:baseline;gap:8px}
+.price b{font-family:var(--f-mono);font-size:44px;font-weight:600;line-height:1}
+.price span{color:var(--muted);font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:13px 18px;font-weight:600;font-size:16px;cursor:pointer;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink);width:100%;font-family:inherit}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;filter:none}
+.fine{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+.fine svg{flex:none;margin-top:2px}
+.soon{font-size:13px;background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:8px 10px}
+
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0}
+.steps li{border-top:2px solid var(--ink);padding-top:12px;display:grid;gap:6px}
+.steps .n{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.steps b{font-size:16px}
+.steps span{font-size:14.5px;color:var(--muted)}
+
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+td.c,th.c{text-align:center;width:120px}
+td.c svg{display:inline-block;vertical-align:middle}
+.dash{color:var(--muted)}
+
+.sample{display:grid;gap:10px;border:1px solid var(--line);border-radius:12px;padding:18px 18px 18px 22px;background:var(--surface);position:relative;overflow:hidden}
+.sample::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--crit)}
+.sample-h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.sample h3{font-size:19px}
+.sample .why{color:var(--muted);font-size:14.5px}
+.sample ol{margin:0;padding-left:20px;display:grid;gap:4px;font-size:14.5px}
+.sample .meta{display:flex;gap:6px;flex-wrap:wrap}
+.qref{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+
+.faq{display:grid;gap:8px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+summary{cursor:pointer;font-weight:600}
+details p{margin-top:8px;color:var(--muted);font-size:14.5px;max-width:65ch}
+
+.disclaimer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .buy{position:static}
+  .steps{grid-template-columns:1fr}
+  td.c,th.c{width:80px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="index.html">
+      <span class="mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.5 13.5 3.6v4.1c0 3.3-2.3 5.8-5.5 6.8-3.2-1-5.5-3.5-5.5-6.8V3.6Z" fill="none" stroke="#fff" stroke-width="1.4"/><path d="m5.4 8 1.8 1.8L10.8 6.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span>AI Readiness &amp; Risk Scorecard<small>by BloWeD Consulting</small></span>
+    </a>
+    <a class="back" href="index.html#plan">← Back to my results</a>
+  </div>
+</header>
+
+<main><div class="wrap">
+
+  <section class="hero">
+    <div>
+      <span class="chip accent">Full report · one-time payment</span>
+      <h1>Turn your score into a fix plan you can act on this week</h1>
+      <p class="lead">The free scorecard shows where your gaps are. The full report tells you exactly how to close each one, in what order, and what it will cost.</p>
+      <ul class="checks">
+        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8.5 3 3 7-7" fill="none" stroke="var(--good)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Every fix, step by step.</b> 2–4 plain-English steps for each gap, not just a title.</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8.5 3 3 7-7" fill="none" stroke="var(--good)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Effort and cost on every fix.</b> See which are free quick wins and which need a paid plan.</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8.5 3 3 7-7" fill="none" stroke="var(--good)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>A 30-day plan.</b> Critical gaps and quick wins in week 1, bigger projects spread across weeks 2–4.</span></li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8.5 3 3 7-7" fill="none" stroke="var(--good)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>A report to share.</b> Save it as a PDF with your business name and date, ready for your team or IT provider.</span></li>
+      </ul>
+    </div>
+
+    <aside class="panel buy" aria-label="Buy the full report">
+      <div class="price"><b>US$19</b><span>one-time · no subscription</span></div>
+      <a class="btn primary" id="pay" href="#" rel="noopener">Pay securely with Stripe</a>
+      <p class="soon" id="soon" hidden>Checkout opens soon. Please check back shortly.</p>
+      <p class="fine"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span>Payment is handled by Stripe. We never see your card details.</span></p>
+      <p class="fine"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12v8H2z M2 4l6 5 6-5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span>Your access code appears on screen right after payment. Keep a copy.</span></p>
+      <a class="btn" href="index.html#plan">I already have a code</a>
+    </aside>
+  </section>
+
+  <section style="display:grid;gap:16px">
+    <p class="eyebrow">How it works</p>
+    <ol class="steps">
+      <li><span class="n">01</span><b>Pay US$19</b><span>Check out securely on Stripe’s payment page.</span></li>
+      <li><span class="n">02</span><b>Get your access code</b><span>It’s shown on the confirmation screen as soon as you’ve paid.</span></li>
+      <li><span class="n">03</span><b>Unlock your report</b><span>Go back to the scorecard, open your action plan and enter the code.</span></li>
+    </ol>
+  </section>
+
+  <section class="panel" style="display:grid;gap:14px">
+    <h2 style="font-size:22px">Free scorecard vs full report</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>What you get</th><th class="c">Free</th><th class="c">Full report</th></tr></thead>
+      <tbody>
+        <tr><td>Overall score and band</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Scores for all 6 areas</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Critical gaps flagged</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Top 3 fixes (titles only)</td><td class="c">✓</td><td class="c">✓</td></tr>
+        <tr><td>Every fix, including “Improve” items</td><td class="c dash">–</td><td class="c">✓</td></tr>
+        <tr><td>Step-by-step instructions</td><td class="c dash">–</td><td class="c">✓</td></tr>
+        <tr><td>Effort and cost for each fix</td><td class="c dash">–</td><td class="c">✓</td></tr>
+        <tr><td>Week-by-week 30-day plan</td><td class="c dash">–</td><td class="c">✓</td></tr>
+        <tr><td>Report saved as PDF</td><td class="c dash">–</td><td class="c">✓</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <p class="eyebrow">A sample fix from the full report</p>
+    <article class="sample">
+      <div class="sample-h"><div><span class="qref">AC2 · Access &amp; Accounts</span><h3>Turn on MFA for every AI and automation account</h3></div><span class="chip crit">Critical gap</span></div>
+      <p class="why">A stolen password to an AI account exposes every chat and file uploaded to it.</p>
+      <ol>
+        <li>List every AI and automation account, including n8n, Zapier and Make.</li>
+        <li>Turn on MFA with an authenticator app rather than SMS where possible.</li>
+        <li>Enforce MFA in the admin settings of any team plan.</li>
+      </ol>
+      <div class="meta"><span class="chip">Quick win · under 1 day</span><span class="chip">Free</span></div>
+    </article>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2 style="font-size:22px">Questions</h2>
+    <div class="faq">
+      <details><summary>Do I need to answer the questions again?</summary><p>No. Your answers are saved in the browser you used. After paying, go back to the scorecard in that same browser, open your action plan and enter your code.</p></details>
+      <details><summary>Haven’t taken the free scorecard yet?</summary><p>Take it first. It takes about 5 minutes, and the full report is built from your answers. <a href="index.html">Start the free check</a>.</p></details>
+      <details><summary>Are my answers sent to you or to Stripe?</summary><p>No. Your answers never leave your browser. Stripe only receives what you enter at checkout to process the payment.</p></details>
+      <details><summary>Is this a subscription?</summary><p>No. It’s a single US$19 payment with nothing recurring.</p></details>
+      <details><summary>I lost my access code. What do I do?</summary><p>Reply to the Stripe receipt email you got after paying, and we’ll send your code again.</p></details>
+      <details><summary>Want help putting the fixes in place?</summary><p>Book a 60-minute AI Safety Review. We go through your results together and leave you with a written fix plan. <a href="https://calendar.app.google/ngneqB9G83vbwryV7" target="_blank" rel="noopener">Book a review</a>.</p></details>
+    </div>
+  </section>
+
+  <p class="disclaimer">The report is a self-assessment for awareness. It is not a security audit, certification or legal advice. Prepared by BloWeD Consulting.</p>
+</div></main>
+
+<script>
+/* Paste your Stripe Payment Link here, e.g. https://buy.stripe.com/xxxxxxxx */
+const STRIPE_PAYMENT_LINK = "";
+
+const pay = document.getElementById("pay");
+if (STRIPE_PAYMENT_LINK) {
+  pay.href = STRIPE_PAYMENT_LINK;
+} else {
+  pay.setAttribute("aria-disabled", "true");
+  pay.addEventListener("click", e => { e.preventDefault(); document.getElementById("soon").hidden = false; });
+}
+</script>
+</body>
+</html>
