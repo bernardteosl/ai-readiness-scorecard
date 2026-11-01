@@ -9,52 +9,68 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-/* Layout: a single focused app column (max 880px) under a slim header with a six-step tracker; a self-audit worksheet, not a marketing page. */
+/* The audit sheet: navy ink on paper, IBM Plex, a seven-colour rainbow for grades (flat colours, no gradients). */
 :root{
-  --paper:#F3F5F2; --surface:#FFFFFF; --ink:#14201D; --muted:#5A6763; --line:#D9DFDB; --soft:#E9EDEA;
-  --accent:#2C55C9; --accent-ink:#FFFFFF; --accent-soft:#E6ECFB;
-  --good:#1D8456; --warn:#B87C06; --crit:#C2412D;
-  --good-soft:#E3F2EA; --warn-soft:#FAF0D9; --crit-soft:#FBE7E3;
-  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --paper:#E4E9E6; --surface:#FBFBF8; --ink:#17233A; --muted:#56627A; --line:#C7D2DF; --soft:#EDF0EE;
+  --accent:#14619E; --accent-ink:#FFFFFF; --accent-soft:#E3EEF8;
+  --cta:#F57C1F; --cta-ink:#17233A; --headline:#3236A8;
+  --bar:#17233A; --bar-ink:#E8ECF2; --bar-muted:#9FAAC0; --bar-line:#3A4862; --bar-brand:#F6C31C;
+  --good:#14619E; --warn:#8C6A00; --crit:#B3241C;
+  --good-soft:#E3EEF8; --warn-soft:#FBF3D6; --crit-soft:#FBE6E3;
+  /* grades: bright fill for blocks and bars, darker ink for text on paper */
+  --g1:#E5352B; --g1-ink:#B3241C; --g2:#F57C1F; --g2-ink:#B65310; --g3:#F6C31C; --g3-ink:#8C6A00;
+  --g4:#2DB35D; --g4-ink:#1C7A3D; --g5:#1F8FE5; --g5-ink:#14619E; --g6:#4B4FD8; --g6-ink:#3236A8;
+  --g7:#8E3FD1; --g7-ink:#6B2AA3;
+  --f-display:"IBM Plex Serif", Georgia, serif;
   --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --f-mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#0E1413; --surface:#162020; --ink:#E6ECE9; --muted:#9BA8A4; --line:#2A3634; --soft:#1D2928;
-  --accent:#86A2FF; --accent-ink:#0E1413; --accent-soft:#1E2A47;
-  --good:#4BC089; --warn:#E5B23F; --crit:#F27B66;
-  --good-soft:#15302A; --warn-soft:#33290F; --crit-soft:#3A1D18; color-scheme:dark}}
+  --paper:#0B1018; --surface:#141B27; --ink:#E6EAF0; --muted:#9AA6B8; --line:#2A3546; --soft:#1B2433;
+  --accent:#6FB2F0; --accent-ink:#0B1018; --accent-soft:#16283C;
+  --cta:#F78A3A; --cta-ink:#17233A; --headline:#A9ACF7;
+  --bar:#070B11; --bar-ink:#E8ECF2; --bar-muted:#8D98AE; --bar-line:#2A3546; --bar-brand:#F6C31C;
+  --good:#6FB2F0; --warn:#E8C04A; --crit:#F07A65;
+  --good-soft:#16283C; --warn-soft:#332A0E; --crit-soft:#3A1D18;
+  --g1-ink:#F07A65; --g2-ink:#F7A15C; --g3-ink:#F2CE4E; --g4-ink:#5CCB85; --g5-ink:#6FB2F0; --g6-ink:#A9ACF7; --g7-ink:#C59AF0;
+  color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#0E1413; --surface:#162020; --ink:#E6ECE9; --muted:#9BA8A4; --line:#2A3634; --soft:#1D2928;
-  --accent:#86A2FF; --accent-ink:#0E1413; --accent-soft:#1E2A47;
-  --good:#4BC089; --warn:#E5B23F; --crit:#F27B66;
-  --good-soft:#15302A; --warn-soft:#33290F; --crit-soft:#3A1D18; color-scheme:dark}
+  --paper:#0B1018; --surface:#141B27; --ink:#E6EAF0; --muted:#9AA6B8; --line:#2A3546; --soft:#1B2433;
+  --accent:#6FB2F0; --accent-ink:#0B1018; --accent-soft:#16283C;
+  --cta:#F78A3A; --cta-ink:#17233A; --headline:#A9ACF7;
+  --bar:#070B11; --bar-ink:#E8ECF2; --bar-muted:#8D98AE; --bar-line:#2A3546; --bar-brand:#F6C31C;
+  --good:#6FB2F0; --warn:#E8C04A; --crit:#F07A65;
+  --good-soft:#16283C; --warn-soft:#332A0E; --crit-soft:#3A1D18;
+  --g1-ink:#F07A65; --g2-ink:#F7A15C; --g3-ink:#F2CE4E; --g4-ink:#5CCB85; --g5-ink:#6FB2F0; --g6-ink:#A9ACF7; --g7-ink:#C59AF0;
+  color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
-h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:-0.015em;line-height:1.15;text-wrap:balance;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar)}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:-0.015em;line-height:1.15;text-wrap:balance;margin:0}
 p{margin:0}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 
 /* header */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line);
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bar);color:var(--bar-ink);border-bottom:1px solid var(--bar-line);
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
-.top-in{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.top-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px}
-.mark{width:26px;height:26px;border-radius:7px;background:var(--ink);display:grid;place-items:center}
+.mark{width:26px;height:26px;border-radius:4px;border:1.5px solid var(--bar-ink);display:grid;place-items:center}
+.brand-name{color:var(--bar-brand)}
 .mark svg{display:block}
-.brand small{display:block;font-weight:400;color:var(--muted);font-size:12px;line-height:1.2}
-.steps{display:flex;gap:4px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
-.steps button{border:1px solid transparent;background:none;border-radius:999px;padding:4px 10px;font-size:12.5px;color:var(--muted);cursor:pointer;display:flex;gap:6px;align-items:center}
+.brand small{display:block;font-weight:400;color:var(--bar-muted);font-size:12px;line-height:1.2}
+.steps{display:flex;gap:0;list-style:none;margin:0;padding:0;flex-wrap:wrap;border:1px solid var(--bar-line);border-radius:4px;overflow:hidden}
+.steps li + li button{border-left:1px solid var(--bar-line)}
+.steps button{border:none;background:none;border-radius:0;padding:5px 11px;font-family:var(--f-mono);font-size:11.5px;color:var(--bar-ink);cursor:pointer;display:flex;gap:6px;align-items:center}
 .steps button .n{font-family:var(--f-mono);font-size:11px}
-.steps button[aria-current="step"]{background:var(--ink);color:var(--paper)}
+.steps button[aria-current="step"]{background:var(--bar-ink);color:var(--bar)}
 .steps button:disabled{opacity:.45;cursor:default}
-.steps button:not(:disabled):not([aria-current="step"]):hover{border-color:var(--line)}
+.steps button:not(:disabled):not([aria-current="step"]):hover{background:var(--bar-line)}
 
 main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
 .wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
@@ -65,9 +81,9 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
 .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:11px 18px;font-weight:600;font-size:15px;cursor:pointer;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:3px;padding:11px 18px;font-weight:600;font-size:15px;cursor:pointer;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink)}
 .btn:hover{border-color:var(--muted)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary{background:var(--cta);border-color:var(--cta);color:var(--cta-ink);font-weight:700}
 .btn.primary:hover{filter:brightness(1.07)}
 .btn.ghost{background:none;border-color:transparent;color:var(--muted);padding-inline:8px}
 .btn.ghost:hover{color:var(--ink)}
@@ -79,26 +95,61 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .chip.warn{background:var(--warn-soft);color:var(--warn)}
 .chip.accent{background:var(--accent-soft);color:var(--accent)}
 
-/* landing */
-.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:start}
-.hero > *{min-width:0}
-.hero h1{font-size:clamp(34px,5.4vw,52px);margin:10px 0 14px}
-.benefits{list-style:none;padding:0;margin:22px 0 26px;display:grid;gap:12px}
-.benefits li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
-.benefits .ic{width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:600}
-.benefits b{display:block;font-weight:600}
-.benefits span{color:var(--muted);font-size:14.5px}
-.privacy{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--muted);margin-top:18px;max-width:52ch}
-.privacy svg{flex:none;margin-top:2px}
-.sample{position:relative}
-.sample-tag{position:absolute;top:-10px;right:16px}
-.resume{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
-
-.domains-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.domains-strip div{border-top:2px solid var(--ink);padding-top:10px}
-.domains-strip .mono{font-size:12px;color:var(--muted)}
-.domains-strip b{display:block;font-size:14.5px}
-.domains-strip span{font-size:13.5px;color:var(--muted)}
+/* landing: the audit sheet */
+.wrap.wide{max-width:1080px}
+.resume{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;background:var(--accent-soft);border-radius:4px;padding:12px 16px}
+.sheet{background:var(--surface);box-shadow:0 1px 0 rgba(23,35,58,.08),0 18px 40px -18px rgba(23,35,58,.35)}
+.rainbow{display:grid;grid-template-columns:repeat(7,1fr);height:6px}
+.strip{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;border-bottom:2px solid var(--ink);padding:14px clamp(20px,5vw,56px);font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.strip .m{color:var(--muted)}
+.sh-body{display:grid;grid-template-columns:minmax(0,1fr) 360px}
+.sh-left{padding:48px clamp(20px,5vw,56px) 52px;border-right:1px solid var(--line);min-width:0}
+.sh-left h1{font-weight:500;font-size:clamp(38px,5.6vw,60px);line-height:1.04;letter-spacing:-0.02em;color:var(--headline)}
+.sh-lead{font-size:18px;color:var(--muted);margin-top:22px;max-width:52ch;text-wrap:balance;hyphens:none}
+.checks{list-style:none;margin:34px 0 0;padding:0;border-top:1px solid var(--line)}
+.checks li{display:grid;grid-template-columns:28px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.box{width:20px;height:20px;border:1.5px solid var(--ink);margin-top:3px;position:relative}
+.box::after{content:"";position:absolute;left:5px;top:1px;width:6px;height:11px;border:solid var(--ink);border-width:0 2px 2px 0;transform:rotate(42deg)}
+.checks b{font-weight:600;display:block}
+.checks span{display:block;color:var(--muted);font-size:14.5px}
+.checks li:nth-child(1) b{color:var(--g5-ink)}
+.checks li:nth-child(2) b{color:var(--g1-ink)}
+.checks li:nth-child(3) b{color:var(--g4-ink)}
+.sh-act{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:34px}
+.sh-act .btn.primary{padding:14px 24px}
+.textlink{background:none;border:none;padding:0;font:inherit;font-weight:600;color:var(--g5-ink);text-decoration:underline;text-decoration-color:var(--g5);text-underline-offset:4px;cursor:pointer}
+.sh-right{padding:40px 36px;background:repeating-linear-gradient(to bottom, transparent 0 31px, var(--line) 31px 32px);background-position:0 8px;min-width:0}
+.sh-right .tag{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface);display:inline-block;padding-right:8px}
+.stamp{width:200px;height:200px;margin:28px auto 30px;border:3px solid currentColor;border-radius:50%;display:grid;place-items:center;transform:rotate(-8deg);box-shadow:inset 0 0 0 6px var(--surface),inset 0 0 0 7.5px currentColor}
+.stamp div{text-align:center;line-height:1}
+.stamp b{display:block;font-family:var(--f-display);font-size:76px;font-weight:600;letter-spacing:-0.04em}
+.stamp small{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+.stamp em{display:block;font-style:normal;font-family:var(--f-mono);font-size:12.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:10px;padding-top:8px;border-top:1.5px solid currentColor}
+.ledger{list-style:none;margin:0;padding:0;background:var(--surface)}
+.ledger li{display:flex;align-items:baseline;gap:8px;height:32px;font-size:14px}
+.ledger .dots{flex:1;border-bottom:1.5px dotted var(--muted);opacity:.6;transform:translateY(-4px)}
+.ledger .lchip{width:22px;height:10px;border-radius:2px;flex:none;align-self:center}
+.ledger .v{font-family:var(--f-mono);font-weight:600;min-width:22px;text-align:right}
+.gkey{background:var(--surface);margin-top:28px;padding-top:4px}
+.gkey-h{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.gscale{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:10px}
+.gscale span{height:26px;border-radius:2px;display:grid;place-items:center;font-family:var(--f-mono);font-size:10px;font-weight:600;color:#fff}
+.gscale span:nth-child(3){color:#3A2C00}
+.gbands{display:grid;grid-template-columns:2fr 2fr 3fr;gap:3px;margin-top:6px;font-size:11.5px;font-weight:600}
+.gbands span{border-top:2px solid;padding-top:4px}
+.gbands span:nth-child(1){color:var(--g1-ink);border-color:var(--g1)}
+.gbands span:nth-child(2){color:var(--g3-ink);border-color:var(--g3)}
+.gbands span:nth-child(3){color:var(--g5-ink);border-color:var(--g5)}
+.register{border-top:2px solid var(--ink);padding:28px clamp(20px,5vw,56px) 44px}
+.register h2{font-family:var(--f-mono);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.register table{width:100%;border-collapse:collapse;margin-top:14px}
+.register td{padding:13px 0;border-top:1px solid var(--line);vertical-align:baseline}
+.register tr:last-child td{border-bottom:1px solid var(--line)}
+.register td.code{width:84px;font-family:var(--f-mono);font-size:13px;font-weight:600}
+.register td.nm{width:300px;font-family:var(--f-display);font-size:19px;font-weight:500;padding-right:16px}
+.register td.bl{color:var(--muted)}
+.foot{padding:16px clamp(20px,5vw,56px) 22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;gap:10px}
+.foot .m{font-family:var(--f-mono)}
 
 /* forms */
 .field{display:flex;flex-direction:column;gap:8px}
@@ -150,9 +201,7 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .dbar i{position:absolute;inset:0 auto 0 0;border-radius:6px}
 .dbar .tick{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--line)}
 .drow .val{text-align:right;font-family:var(--f-mono);font-weight:600}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.legend{display:block;max-width:420px}
 
 /* plan */
 .acts{display:grid;gap:12px}
@@ -207,7 +256,13 @@ td.num{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-n
   .steps .lbl{display:none}
   .drow{grid-template-columns:1fr 52px}
   .drow .dbar{grid-column:1 / -1;grid-row:2}
-  .domains-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sh-body{grid-template-columns:1fr}
+  .sh-left{border-right:none;border-bottom:1px solid var(--line)}
+  .register tr{display:grid;grid-template-columns:44px 1fr;border-top:1px solid var(--line);padding:12px 0}
+  .register tr:last-child{border-bottom:1px solid var(--line)}
+  .register td,.register tr:last-child td{border:none;padding:0;width:auto}
+  .register td.nm{font-size:18px}
+  .register td.bl{grid-column:2;margin-top:2px}
   .code-box{min-width:0}
 }
 @media (max-width:420px){.weeks{grid-template-columns:1fr}.track .seg span{font-size:10px}}
@@ -220,8 +275,8 @@ td.num{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-n
 <header class="top">
   <div class="top-in">
     <div class="brand">
-      <div class="mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.5 13.5 3.6v4.1c0 3.3-2.3 5.8-5.5 6.8-3.2-1-5.5-3.5-5.5-6.8V3.6Z" fill="none" stroke="#fff" stroke-width="1.4"/><path d="m5.4 8 1.8 1.8L10.8 6.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div>AI Readiness &amp; Risk Scorecard<small>by BloWeD Consulting</small></div>
+      <div class="mark" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 16 16"><path d="M8 1.5 13.5 3.6v4.1c0 3.3-2.3 5.8-5.5 6.8-3.2-1-5.5-3.5-5.5-6.8V3.6Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m5.4 8 1.8 1.8L10.8 6.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><span class="brand-name">AI Readiness &amp; Risk Scorecard</span><small>by BloWeD Consulting</small></div>
     </div>
     <nav aria-label="Progress"><ol class="steps" id="steps"></ol></nav>
   </div>
@@ -368,6 +423,11 @@ const BAND = {
 };
 const bandOf = s => s===null ? "na" : s>=70 ? "good" : s>=40 ? "warn" : "crit";
 const colorOf = b => b==="good" ? "var(--good)" : b==="warn" ? "var(--warn)" : b==="crit" ? "var(--crit)" : "var(--line)";
+/* Seven rainbow grades inside the three bands: 0-19 red, 20-39 orange (At risk); 40-54 yellow, 55-69 green (Getting there); 70-79 blue, 80-89 indigo, 90-100 violet (Ready). */
+const gradeOf = s => s===null ? 0 : s<20 ? 1 : s<40 ? 2 : s<55 ? 3 : s<70 ? 4 : s<80 ? 5 : s<90 ? 6 : 7;
+const gFill = s => gradeOf(s) ? `var(--g${gradeOf(s)})` : "var(--line)";
+const gInk = s => gradeOf(s) ? `var(--g${gradeOf(s)}-ink)` : "var(--muted)";
+const gradingKey = () => `<div class="gkey"><span class="gkey-h">Grading key</span><div class="gscale">${[0,20,40,55,70,80,90].map((n,i)=>`<span style="background:var(--g${i+1})">${n}</span>`).join("")}</div><div class="gbands"><span>At risk</span><span>Getting there</span><span>Ready</span></div></div>`;
 const answeredCount = () => Q.filter(q=>q.id in S.answers).length;
 const complete = () => answeredCount()===Q.length;
 
@@ -389,7 +449,7 @@ function gauge(score, band){
   const tick = p => { const [x1,y1]=pt(p,68), [x2,y2]=pt(p,92); return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="var(--muted)" stroke-width="1.2"/>`; };
   return `<svg viewBox="0 0 200 128" role="img" aria-label="Overall score ${score} out of 100">
     <path d="M20 104 A80 80 0 0 1 180 104" fill="none" stroke="var(--soft)" stroke-width="14" stroke-linecap="round"/>
-    <path d="M20 104 A80 80 0 0 1 180 104" fill="none" stroke="${colorOf(band)}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${v.toFixed(1)} ${L.toFixed(1)}"/>
+    <path d="M20 104 A80 80 0 0 1 180 104" fill="none" stroke="${gFill(score)}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${v.toFixed(1)} ${L.toFixed(1)}"/>
     ${tick(.4)}${tick(.7)}
     <text x="100" y="96" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="600" font-size="40" fill="var(--ink)">${score}</text>
     <text x="100" y="118" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--muted)">out of 100</text>
@@ -401,10 +461,10 @@ function domainBars(domains){
   return `<div class="dlist">${domains.map(d=>{ const b=bandOf(d.score); return `
     <div class="drow">
       <div class="nm">${esc(d.name)}<small>${d.id} · ${esc(d.blurb)}</small></div>
-      <div class="dbar" aria-hidden="true"><span class="tick" style="left:40%"></span><span class="tick" style="left:70%"></span><i style="width:${d.score??0}%;background:${colorOf(b)}"></i></div>
-      <div class="val">${d.score===null?"n/a":d.score}</div>
+      <div class="dbar" aria-hidden="true"><span class="tick" style="left:40%"></span><span class="tick" style="left:70%"></span><i style="width:${d.score??0}%;background:${gFill(d.score)}"></i></div>
+      <div class="val" style="color:${gInk(d.score)}">${d.score===null?"n/a":d.score}</div>
     </div>`; }).join("")}</div>
-    <div class="legend"><span><i style="background:var(--crit)"></i>0–39 At risk</span><span><i style="background:var(--warn)"></i>40–69 Getting there</span><span><i style="background:var(--good)"></i>70–100 Ready</span></div>`;
+    <div class="legend">${gradingKey()}</div>`;
 }
 
 /* ---------- SCREENS ---------- */
@@ -423,36 +483,37 @@ function vLanding(){
   const r = compute(SAMPLE.answers);
   const resume = answeredCount()>0 && !complete();
   const done = complete();
+  const rows = ["g1","g2","g3","g4","g5","g7"]; // register name colours, top to bottom
   return `
   ${resume ? `<div class="resume"><span><b>Continue where you left off.</b> ${answeredCount()} of ${Q.length} questions answered.</span><button class="btn primary" data-act="resume">Continue</button></div>`:""}
   ${done ? `<div class="resume"><span><b>Your last result is saved in this browser.</b></span><button class="btn primary" data-go="results">View my results</button></div>`:""}
-  <section class="hero">
-    <div>
-      <span class="chip accent">Free · 5 minutes · 18 questions</span>
-      <h1>Is your business using AI safely?</h1>
-      <p class="lead">Your staff are probably already using ChatGPT and other AI tools. Find out where that leaves your customer data, and get a plain-English list of fixes.</p>
-      <ul class="benefits">
-        <li><span class="ic">01</span><div><b>A score out of 100</b><span>See how you rate across six areas, from data protection to staff skills.</span></div></li>
-        <li><span class="ic">02</span><div><b>Critical gaps flagged</b><span>Five issues that can leak data on their own are called out in red.</span></div></li>
-        <li><span class="ic">03</span><div><b>A prioritised fix list</b><span>Quick wins first, with effort and cost for every fix.</span></div></li>
-      </ul>
-      <div class="row">
-        <button class="btn primary" data-act="start">Start free check</button>
-        <button class="btn" data-act="sample">See a sample result</button>
-      </div>
-      <p class="privacy"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span>Your answers stay in this browser. Nothing is sent to us or anyone else. This is a self-assessment for awareness, not a security audit or legal advice.</span></p>
+  <article class="sheet">
+    <div class="rainbow" aria-hidden="true">${[1,2,3,4,5,6,7].map(i=>`<i style="background:var(--g${i})"></i>`).join("")}</div>
+    <div class="strip"><span>AI Readiness &amp; Risk Scorecard</span><span class="m">Free · 5 minutes · 18 questions</span></div>
+    <div class="sh-body">
+      <section class="sh-left">
+        <h1>Is your business using AI safely?</h1>
+        <p class="sh-lead">Your staff are probably already using ChatGPT and other AI tools. Find out where that leaves your customer data, and get a plain-English list of fixes.</p>
+        <ul class="checks">
+          <li><span class="box" aria-hidden="true"></span><div><b>A score out of 100</b><span>See how you rate across six areas, from data protection to staff skills.</span></div></li>
+          <li><span class="box" aria-hidden="true"></span><div><b>Critical gaps flagged</b><span>Five issues that can leak data on their own are called out in red.</span></div></li>
+          <li><span class="box" aria-hidden="true"></span><div><b>A prioritised fix list</b><span>Quick wins first, with effort and cost for every fix.</span></div></li>
+        </ul>
+        <div class="sh-act"><button class="btn primary" data-act="start">Start free check</button><button class="textlink" data-act="sample">See a sample result</button></div>
+      </section>
+      <aside class="sh-right" aria-label="Sample result preview">
+        <span class="tag">Sample result</span>
+        <div class="stamp" style="color:${gInk(r.overall)};background:color-mix(in srgb, ${gFill(r.overall)} 16%, var(--surface))"><div><b>${r.overall}</b><small>out of 100</small><em>${BAND[r.band].name}</em></div></div>
+        <ul class="ledger">${r.domains.map(d=>`<li>${esc(d.name)}<span class="dots"></span><span class="lchip" style="background:${gFill(d.score)}"></span><span class="v" style="color:${gInk(d.score)}">${d.score}</span></li>`).join("")}</ul>
+        ${gradingKey()}
+      </aside>
     </div>
-    <div class="panel sample" aria-label="Sample result preview">
-      <span class="chip sample-tag">Sample result</span>
-      <div class="gauge" style="max-width:220px;margin:4px auto 0">${gauge(r.overall, r.band)}</div>
-      <p style="text-align:center;margin:6px 0 16px"><span class="band-pill band-${r.band}">${BAND[r.band].name}</span></p>
-      <div class="dlist">${r.domains.map(d=>`<div class="drow" style="grid-template-columns:1fr 34px"><div class="nm" style="font-size:13px">${esc(d.name)}</div><div class="val" style="font-size:13px">${d.score}</div><div class="dbar" style="grid-column:1/-1;height:8px"><i style="width:${d.score}%;background:${colorOf(bandOf(d.score))}"></i></div></div>`).join("")}</div>
-    </div>
-  </section>
-  <section class="panel">
-    <p class="eyebrow" style="margin-bottom:14px">The six areas we check</p>
-    <div class="domains-strip">${DOMAINS.map(d=>`<div><span class="mono">${d.id}</span><b>${esc(d.name)}</b><span>${esc(d.blurb)}</span></div>`).join("")}</div>
-  </section>`;
+    <section class="register">
+      <h2>The six areas we check</h2>
+      <table>${DOMAINS.map((d,i)=>`<tr><td class="code">${d.id}</td><td class="nm" style="color:var(--${rows[i]}-ink)">${esc(d.name)}</td><td class="bl">${esc(d.blurb)}</td></tr>`).join("")}</table>
+    </section>
+    <p class="foot"><span class="m">*</span><span>Your answers stay in this browser. Nothing is sent to us or anyone else. This is a self-assessment for awareness, not a security audit or legal advice.</span></p>
+  </article>`;
 }
 
 function vProfile(){
@@ -577,7 +638,7 @@ function vReport(){
     </header>
     <section><h2>Summary</h2><p>${BAND[r.band].head} ${r.criticalGaps.length?`There ${r.criticalGaps.length>1?"are":"is"} <b>${r.criticalGaps.length} critical gap${r.criticalGaps.length>1?"s":""}</b> to close first: ${r.criticalGaps.map(q=>esc(q.fix.t.toLowerCase())).join("; ")}.`:"No critical gaps were found."}</p></section>
     <section><h2>Score by area</h2><div class="tbl-wrap"><table><thead><tr><th>Area</th><th>Status</th><th style="text-align:right">Score</th></tr></thead><tbody>
-      ${r.domains.map(d=>{const b=bandOf(d.score);return `<tr><td>${esc(d.name)}</td><td>${b==="na"?"Not scored":`<span class="chip ${b}">${BAND[b].name}</span>`}</td><td class="num">${d.score??"n/a"}</td></tr>`;}).join("")}
+      ${r.domains.map(d=>{const b=bandOf(d.score);return `<tr><td>${esc(d.name)}</td><td>${b==="na"?"Not scored":`<span class="chip ${b}">${BAND[b].name}</span>`}</td><td class="num" style="color:${gInk(d.score)};font-weight:600">${d.score??"n/a"}</td></tr>`;}).join("")}
     </tbody></table></div></section>
     <section><h2>Action plan</h2><div class="acts">${r.actions.map(x=>actCard(x,true)).join("")}</div></section>
     <section><h2>30-day plan</h2>${thirtyDay(r.actions)}</section>
@@ -590,7 +651,7 @@ function vReport(){
 function go(screen){ if (!canGo(screen)) return; S.screen=screen; ui.hint=false; ui.codeErr=""; ui.resetArm=false; save(); render(); window.scrollTo({top:0}); }
 function render(){
   const v = {landing:vLanding, profile:vProfile, quiz:vQuiz, results:vResults, plan:vPlan, report:vReport}[S.screen];
-  $("#app").innerHTML = v(); renderSteps();
+  $("#app").innerHTML = v(); $("#app").classList.toggle("wide", S.screen==="landing"); renderSteps();
   const pf=$("#pform"); if (pf) pf.addEventListener("submit", e=>{ e.preventDefault(); S.profile.businessName=$("#bname").value.trim(); if(!S.startedAt) S.startedAt=new Date().toISOString(); go("quiz"); });
   const bn=$("#bname"); if (bn) bn.addEventListener("input", e=>{ S.profile.businessName=e.target.value; save(); });
   const cf=$("#cform"); if (cf) cf.addEventListener("submit", async e=>{ e.preventDefault(); const v=$("#code").value.trim().toUpperCase(); if(!v){ ui.codeErr="Enter the code from your receipt email."; render(); return; }
